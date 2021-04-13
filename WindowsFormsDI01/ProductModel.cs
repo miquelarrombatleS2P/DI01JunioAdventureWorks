@@ -15,7 +15,7 @@ namespace WindowsFormsDI01
 
         public override string ToString()
         {
-            return $"{Description}/{Name}/{ListPrice}";
+            return $"{ProductModelID}/{Name}/{Description}/{ListPrice}";
         }
     }
 }

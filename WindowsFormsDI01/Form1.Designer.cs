@@ -34,6 +34,8 @@ namespace WindowsFormsDI01
             this.label4 = new System.Windows.Forms.Label();
             this.subcategoryList = new System.Windows.Forms.ComboBox();
             this.categoryList = new System.Windows.Forms.ComboBox();
+            this.searchBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // productList
@@ -84,11 +86,30 @@ namespace WindowsFormsDI01
             this.categoryList.TabIndex = 20;
             this.categoryList.SelectedIndexChanged += new System.EventHandler(this.categoryList_SelectedIndexChanged);
             // 
+            // searchBox
+            // 
+            this.searchBox.Location = new System.Drawing.Point(568, 40);
+            this.searchBox.Name = "searchBox";
+            this.searchBox.Size = new System.Drawing.Size(314, 22);
+            this.searchBox.TabIndex = 21;
+            this.searchBox.TextChanged += new System.EventHandler(this.searchBox_TextChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(565, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(259, 17);
+            this.label2.TabIndex = 22;
+            this.label2.Text = "Search Product Name or Product Model";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(894, 495);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.searchBox);
             this.Controls.Add(this.categoryList);
             this.Controls.Add(this.subcategoryList);
             this.Controls.Add(this.label4);
@@ -108,6 +129,8 @@ namespace WindowsFormsDI01
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox subcategoryList;
         private System.Windows.Forms.ComboBox categoryList;
+        private System.Windows.Forms.TextBox searchBox;
+        private System.Windows.Forms.Label label2;
     }
 }
 

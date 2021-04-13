@@ -13,9 +13,10 @@ using Dapper;
 
 namespace WindowsFormsDI01
 {
-    public partial class Form2 : Form
+    public partial class FormProduct : Form
     {
         int ProductModelId = 0;
+       
         public string sql = $"SELECT "
                        + $"Production.Product.ProductID AS ProductID, Production.Product.ProductModelID AS ProductModelID, Production.Product.Name, "
                        + $"Production.ProductDescription.Description, Production.Product.ListPrice, Production.Product.Size, Production.Product.Color "
@@ -28,10 +29,10 @@ namespace WindowsFormsDI01
                        + $"INNER JOIN Production.ProductDescription on Production.ProductModelProductDescriptionCulture.ProductDescriptionID = Production.ProductDescription.ProductDescriptionID "
                        + $"WHERE ProductModelProductDescriptionCulture.CultureID = 'en' AND Product.ProductModelID IS NOT NULL ";
 
-        public Form2(string ProductModelID)
+        public FormProduct(string ProductModelID)
         {
             InitializeComponent();
-            ProductModelId = int.Parse(ProductModelID.ToString());
+            ProductModelId = Int32.Parse(ProductModelID);
             initialInformation();
 
         }
@@ -49,24 +50,29 @@ namespace WindowsFormsDI01
 
                 products = connection.Query<Product>(sql1).ToList();
 
-                List<string> size = new List<string>();
-                List<string> color = new List<string>();
+                List<string> sizeDuplicates = new List<string>();
+                List<string> colorDuplicates = new List<string>();
 
                 int locate = 25;
+                string sizes = "";
+                string colors = "";
 
                 foreach (Product product in products)
                 {
                     Name.Text = product.Name;
                     Description.Text = product.Description;
-                    Price.Text = product.ListPrice.ToString();
+                    Price.Text = product.ListPrice.ToString() + "€";
 
-                    size.Add(product.Size);
-                    color.Add(product.Color);
+                    sizeDuplicates.Add(product.Size);
+                    colorDuplicates.Add(product.Color);
 
                 }
+                List<string> sizeList = sizeDuplicates.Distinct().ToList();
+                List<string> colorList = colorDuplicates.Distinct().ToList();
 
-                foreach (var item in size)
+                foreach (var item in sizeList)
                 {
+                    /*MessageBox.Show(item);
                     Label label = new Label();
 
                     this.Controls.Add(label);
@@ -74,31 +80,40 @@ namespace WindowsFormsDI01
                     label.AutoSize = true;
                     label.Location = new System.Drawing.Point(locate += 15, 80);
                     label.Name = "Size";
-                    label.Size = new System.Drawing.Size(0, 0);
-                    label.TabIndex = 4;
                     label.Visible = true;
 
                     label.Text = item;
-
+                   */
+                    sizes += item + ", ";
+                    
                 }
-                foreach (var item in color)
+                sizeTextBox.Text = sizes;
+
+
+                foreach (var item in colorList)
                 {
-                    Label label = new Label();
+                    /*  Label label = new Label();
 
-                    this.Controls.Add(label);
+                      this.Controls.Add(label);
 
-                    label.AutoSize = true;
-                    label.Location = new System.Drawing.Point(locate += 15, 90);
-                    label.Name = "Color";
-                    label.Size = new System.Drawing.Size(0, 0);
-                    label.TabIndex = 5;
-                    label.Visible = true;
+                      label.AutoSize = true;
+                      label.Location = new System.Drawing.Point(locate += 15, 90);
+                      label.Name = "Color";
+                      label.Visible = true;
 
-                    label.Text = item;
+                      label.Text = item;
+                    */
+                    colors += item + ", ";
 
                 }
+                colorTextBox.Text = colors;
 
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Update has successfully");
         }
     }
 }

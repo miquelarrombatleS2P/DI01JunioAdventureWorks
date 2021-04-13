@@ -15,6 +15,7 @@ namespace WindowsFormsDI01
 {
     public partial class Form1 : Form
     {
+        List<ProductModel> products = new List<ProductModel>();
         public string sql = $"SELECT "
                        + $"Production.Product.ProductModelID AS ProductModelID, Production.ProductModel.Name AS ProductModel, Production.ProductDescription.Description, "
                        + $"Production.Product.Name, Production.Product.ProductNumber, Production.Product.Color, Production.Product.ListPrice, "
@@ -74,8 +75,7 @@ namespace WindowsFormsDI01
 
             using (IDbConnection connection = new SqlConnection(connectionString))
             {
-                List<ProductModel> products = new List<ProductModel>();
-
+                
                 products = connection.Query<ProductModel>(sql).ToList();
 
                 foreach (ProductModel product in products)
@@ -88,10 +88,26 @@ namespace WindowsFormsDI01
         private void productList_DoubleClick(object sender, EventArgs e)
         {
             string productSelected = productList.SelectedItems[0].ToString();
-            string idproductModel = productSelected.Split('/')[0];
-            string productModelID = idproductModel.ToString();
+            
+            string pModelId = productSelected.Split('/')[0];
+        //    string pModelDesc = productSelected.Split('/')[1];
+        //    string pModelPrice = productSelected.Split('/')[2];
 
-            Form2 updateProducts = new Form2(productModelID);
+         //   MessageBox.Show(pModelName + pModelDesc + pModelPrice);
+            string pModelID = pModelId;
+            
+         /*   foreach (ProductModel item in products)
+            {
+                if (item.Name.Equals(pModelName) && item.Description.Equals(pModelDesc) && item.ListPrice.Equals(pModelPrice))
+                {
+                    MessageBox.Show(item.ProductModelID);
+                    pModelID = item.ProductModelID;
+                }
+            }
+         */ 
+
+            
+            FormProduct updateProducts = new FormProduct(pModelID);
             updateProducts.ShowDialog();
         }
 
@@ -143,6 +159,31 @@ namespace WindowsFormsDI01
                 {
                     productList.Items.Add(product.ToString());
                 }
+
+            }
+        }
+
+        private void searchBox_TextChanged(object sender, EventArgs e)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["AdventureWorks2016"].ConnectionString;
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                string sql1 = sql + $"AND Product.Name like '%{searchBox.Text}%' AND ProductModel.Name like '%{searchBox.Text}%'";
+
+                List<Product> products = new List<Product>();
+                products = connection.Query<Product>(sql1).ToList();
+                productList.Items.Clear();
+
+                if (searchBox.Text == "")
+                {
+                    initializeListBox();
+                }
+
+                foreach (Product product in products)
+                {
+                    productList.Items.Add(product.ToString());
+                }
+
 
             }
         }
