@@ -9,8 +9,8 @@ namespace WindowsFormsDI01
     class ProductModel
     {
         public string ProductModelID { get; set; }
-        public string Description { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public double ListPrice { get; set; }
 
         public override string ToString()

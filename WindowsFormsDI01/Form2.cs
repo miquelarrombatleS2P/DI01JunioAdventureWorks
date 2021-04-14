@@ -13,12 +13,12 @@ using Dapper;
 
 namespace WindowsFormsDI01
 {
-    public partial class FormProduct : Form
+    public partial class For : Form
     {
         int ProductModelId = 0;
        
         public string sql = $"SELECT "
-                       + $"Production.Product.ProductID AS ProductID, Production.Product.ProductModelID AS ProductModelID, Production.Product.Name, "
+                       + $"Production.Product.ProductID AS ProductID, Production.Product.ProductModelID AS ProductModelID, Production.ProductModel.Name, "
                        + $"Production.ProductDescription.Description, Production.Product.ListPrice, Production.Product.Size, Production.Product.Color "
                        + $"FROM "
                        + $"Production.Product "
@@ -29,7 +29,7 @@ namespace WindowsFormsDI01
                        + $"INNER JOIN Production.ProductDescription on Production.ProductModelProductDescriptionCulture.ProductDescriptionID = Production.ProductDescription.ProductDescriptionID "
                        + $"WHERE ProductModelProductDescriptionCulture.CultureID = 'en' AND Product.ProductModelID IS NOT NULL ";
 
-        public FormProduct(string ProductModelID)
+        public For(string ProductModelID)
         {
             InitializeComponent();
             ProductModelId = Int32.Parse(ProductModelID);
@@ -53,14 +53,13 @@ namespace WindowsFormsDI01
                 List<string> sizeDuplicates = new List<string>();
                 List<string> colorDuplicates = new List<string>();
 
-                int locate = 25;
-                string sizes = "";
-                string colors = "";
+                int locateSize = 25;
+                int locateColor = 20;
 
                 foreach (Product product in products)
                 {
                     Name.Text = product.Name;
-                    Description.Text = product.Description;
+                    decription.Text = product.Description;
                     Price.Text = product.ListPrice.ToString() + "€";
 
                     sizeDuplicates.Add(product.Size);
@@ -72,41 +71,24 @@ namespace WindowsFormsDI01
 
                 foreach (var item in sizeList)
                 {
-                    /*MessageBox.Show(item);
-                    Label label = new Label();
-
-                    this.Controls.Add(label);
-
-                    label.AutoSize = true;
-                    label.Location = new System.Drawing.Point(locate += 15, 80);
-                    label.Name = "Size";
-                    label.Visible = true;
-
-                    label.Text = item;
-                   */
-                    sizes += item + ", ";
+                    Button newButton = new Button();
+                    this.Controls.Add(newButton);
+                    newButton.Text = item;
+                    newButton.Location = new Point(locateSize += 70, 165);
+                    newButton.Size = new Size(45, 45);
                     
                 }
-                sizeTextBox.Text = sizes;
-
-
+               
                 foreach (var item in colorList)
                 {
-                    /*  Label label = new Label();
 
-                      this.Controls.Add(label);
-
-                      label.AutoSize = true;
-                      label.Location = new System.Drawing.Point(locate += 15, 90);
-                      label.Name = "Color";
-                      label.Visible = true;
-
-                      label.Text = item;
-                    */
-                    colors += item + ", ";
+                    Button newButton = new Button();
+                    this.Controls.Add(newButton);
+                    newButton.Text = item;
+                    newButton.Location = new Point(locateColor += 75, 218);
+                    newButton.Size = new Size(75, 45);
 
                 }
-                colorTextBox.Text = colors;
 
             }
         }
@@ -115,5 +97,7 @@ namespace WindowsFormsDI01
         {
             MessageBox.Show("Update has successfully");
         }
+
+  
     }
 }

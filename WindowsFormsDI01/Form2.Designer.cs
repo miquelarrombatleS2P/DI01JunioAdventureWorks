@@ -1,7 +1,7 @@
 ﻿
 namespace WindowsFormsDI01
 {
-    partial class FormProduct
+    partial class For
     {
         /// <summary>
         /// Required designer variable.
@@ -31,12 +31,10 @@ namespace WindowsFormsDI01
         {
             this.Name = new System.Windows.Forms.Label();
             this.Price = new System.Windows.Forms.Label();
-            this.Description = new System.Windows.Forms.TextBox();
-            this.sizeTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.colorTextBox = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.decription = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Name
@@ -54,26 +52,11 @@ namespace WindowsFormsDI01
             this.Price.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.Price.AutoSize = true;
             this.Price.Font = new System.Drawing.Font("Microsoft Sans Serif", 17.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Price.Location = new System.Drawing.Point(670, 58);
+            this.Price.Location = new System.Drawing.Point(786, 19);
             this.Price.Name = "Price";
             this.Price.Size = new System.Drawing.Size(95, 36);
             this.Price.TabIndex = 2;
             this.Price.Text = "label1";
-            // 
-            // Description
-            // 
-            this.Description.Location = new System.Drawing.Point(31, 58);
-            this.Description.Multiline = true;
-            this.Description.Name = "Description";
-            this.Description.Size = new System.Drawing.Size(633, 77);
-            this.Description.TabIndex = 3;
-            // 
-            // sizeTextBox
-            // 
-            this.sizeTextBox.Location = new System.Drawing.Point(72, 175);
-            this.sizeTextBox.Name = "sizeTextBox";
-            this.sizeTextBox.Size = new System.Drawing.Size(592, 22);
-            this.sizeTextBox.TabIndex = 4;
             // 
             // label1
             // 
@@ -93,13 +76,6 @@ namespace WindowsFormsDI01
             this.label2.TabIndex = 6;
             this.label2.Text = "Color";
             // 
-            // colorTextBox
-            // 
-            this.colorTextBox.Location = new System.Drawing.Point(72, 218);
-            this.colorTextBox.Name = "colorTextBox";
-            this.colorTextBox.Size = new System.Drawing.Size(592, 22);
-            this.colorTextBox.TabIndex = 7;
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(572, 269);
@@ -110,20 +86,28 @@ namespace WindowsFormsDI01
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // FormProduct
+            // decription
+            // 
+            this.decription.AutoSize = true;
+            this.decription.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.decription.Location = new System.Drawing.Point(28, 77);
+            this.decription.Name = "decription";
+            this.decription.Size = new System.Drawing.Size(46, 17);
+            this.decription.TabIndex = 9;
+            this.decription.Text = "label1";
+            // 
+            // For
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(884, 415);
+            this.ClientSize = new System.Drawing.Size(1001, 457);
+            this.Controls.Add(this.decription);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.colorTextBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.sizeTextBox);
-            this.Controls.Add(this.Description);
             this.Controls.Add(this.Price);
             this.Controls.Add(this.Name);
-            //this.Name = "FormProduct";
+            
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -133,11 +117,9 @@ namespace WindowsFormsDI01
 
         private System.Windows.Forms.Label Name;
         private System.Windows.Forms.Label Price;
-        private System.Windows.Forms.TextBox Description;
-        private System.Windows.Forms.TextBox sizeTextBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox colorTextBox;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label decription;
     }
 }

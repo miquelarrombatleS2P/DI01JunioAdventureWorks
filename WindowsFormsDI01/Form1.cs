@@ -16,9 +16,9 @@ namespace WindowsFormsDI01
     public partial class Form1 : Form
     {
         List<ProductModel> products = new List<ProductModel>();
-        public string sql = $"SELECT "
-                       + $"Production.Product.ProductModelID AS ProductModelID, Production.ProductModel.Name AS ProductModel, Production.ProductDescription.Description, "
-                       + $"Production.Product.Name, Production.Product.ProductNumber, Production.Product.Color, Production.Product.ListPrice, "
+        public string sql = $"SELECT DISTINCT "
+                       + $"Production.Product.ProductModelID AS ProductModelID, Production.ProductModel.Name, Production.ProductDescription.Description, "
+                       + $"Production.Product.ListPrice, "
                        + $"Production.Product.Size, Production.Product.ProductLine, Production.Product.Class, Production.Product.Style, "
                        + $"Production.ProductCategory.Name AS ProductCategory, Production.ProductSubcategory.Name AS ProductSubcategory "
                        + $"FROM "
@@ -37,6 +37,7 @@ namespace WindowsFormsDI01
             subcategoryList.Enabled = false;
             MainForm_Load();
 
+
         }
 
         private void MainForm_Load()
@@ -54,16 +55,6 @@ namespace WindowsFormsDI01
                 {
                     categoryList.Items.Add(category);
                 }
-
-                List<string> subcategorys = new List<string>();
-
-                string sql3 = "select [Name] from Production.ProductSubcategory";
-                subcategorys = connection.Query<string>(sql3).ToList();
-
-                foreach (var subcategory in subcategorys)
-                {
-                    subcategoryList.Items.Add(subcategory);
-                }
             }
 
         }
@@ -78,10 +69,11 @@ namespace WindowsFormsDI01
                 
                 products = connection.Query<ProductModel>(sql).ToList();
 
-                foreach (ProductModel product in products)
-                {
-                    productList.Items.Add(product.ToString());
-                }
+                List<ProductModel> productsTotal = products.Distinct().ToList();
+                List<ProductModel> output = new List<ProductModel>();
+
+                duplicates(productsTotal, output);
+
             }
         }
 
@@ -107,12 +99,13 @@ namespace WindowsFormsDI01
          */ 
 
             
-            FormProduct updateProducts = new FormProduct(pModelID);
+            For updateProducts = new For(pModelID);
             updateProducts.ShowDialog();
         }
 
         private void categoryList_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
             productList.Items.Clear();
             categoryChangeLanguage();
         }
@@ -122,23 +115,34 @@ namespace WindowsFormsDI01
       
             string connectionString = ConfigurationManager.ConnectionStrings["AdventureWorks2016"].ConnectionString;
 
-            string sql1 = sql + $"AND ProductCategory.Name = '{categoryList.Text}' ORDER BY Product.Name";
+            string sql1 = sql + $"AND ProductCategory.Name = '{categoryList.Text}'";
 
             using (IDbConnection connection = new SqlConnection(connectionString))
             {
                 List<ProductModel> products = new List<ProductModel>();
 
                 products = connection.Query<ProductModel>(sql1).ToList();
-               
-                foreach (ProductModel product in products)
+
+                List<ProductModel> output = new List<ProductModel>();
+
+                duplicates(products, output);
+
+               /* List<string> subcategorys = new List<string>();
+
+                string sql3 = "select [Name] from Production.ProductSubcategory";
+                subcategorys = connection.Query<string>(sql3).ToList();
+
+                foreach (var subcategory in subcategorys)
                 {
-                    productList.Items.Add(product.ToString());
+                    subcategoryList.Items.Add(subcategory);
                 }
+               */
             }
         }
 
         private void subcategoryList_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
             productList.Items.Clear();
             subCategoryChangeLanguage();
         }
@@ -147,7 +151,7 @@ namespace WindowsFormsDI01
         {
             string connectionString = ConfigurationManager.ConnectionStrings["AdventureWorks2016"].ConnectionString;
 
-            string sql1 = sql + $"AND ProductSubcategory.Name = '{subcategoryList.Text}' ORDER BY Product.Name";
+            string sql1 = sql + $"AND ProductSubcategory.Name = '{subcategoryList.Text}'";
 
             using (IDbConnection connection = new SqlConnection(connectionString))
             {
@@ -165,26 +169,48 @@ namespace WindowsFormsDI01
 
         private void searchBox_TextChanged(object sender, EventArgs e)
         {
+            if (searchBox.Equals(""))
+            {
+                initializeListBox();
+            }
             string connectionString = ConfigurationManager.ConnectionStrings["AdventureWorks2016"].ConnectionString;
             using (IDbConnection connection = new SqlConnection(connectionString))
             {
                 string sql1 = sql + $"AND Product.Name like '%{searchBox.Text}%' AND ProductModel.Name like '%{searchBox.Text}%'";
 
-                List<Product> products = new List<Product>();
-                products = connection.Query<Product>(sql1).ToList();
+                List<ProductModel> products = new List<ProductModel>();
+                products = connection.Query<ProductModel>(sql1).ToList();
                 productList.Items.Clear();
+                List<ProductModel> output = new List<ProductModel>();
 
-                if (searchBox.Text == "")
+                duplicates(products, output);
+
+
+            }
+        }
+
+        private void duplicates(List<ProductModel> products, List<ProductModel> output)
+        {
+            foreach (ProductModel item in products)
+            {
+                bool add = true;
+
+                foreach (var itemOut in output)
                 {
-                    initializeListBox();
-                }
+                    if (item.ProductModelID == itemOut.ProductModelID)
+                    {
+                        add = false;
 
-                foreach (Product product in products)
+                    }
+                }
+                if (add)
                 {
-                    productList.Items.Add(product.ToString());
+                    output.Add(item);
                 }
-
-
+            }
+            foreach (var item in output)
+            {
+                productList.Items.Add(item);
             }
         }
     }
