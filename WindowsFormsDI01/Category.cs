@@ -8,7 +8,7 @@ namespace WindowsFormsDI01
 {
     class Category
     {
-        public string categoryID { get; set; }
+        public string ProductCategoryID { get; set; }
         public string Name { get; set; }
     }
 }

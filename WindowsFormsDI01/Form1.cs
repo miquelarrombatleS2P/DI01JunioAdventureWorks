@@ -46,15 +46,17 @@ namespace WindowsFormsDI01
 
             using (IDbConnection connection = new SqlConnection(connectionString))
             {
-                List<string> categories = new List<string>();
+                List<Category> categories = new List<Category>();
 
-                string sql2 = "select [Name] from Production.ProductCategory";
-                categories = connection.Query<string>(sql2).ToList();
+                string sql2 = "select [ProductCategoryID],[Name] from Production.ProductCategory";
+                categories = connection.Query<Category>(sql2).ToList();
 
-                foreach (var category in categories)
+                foreach (Category category in categories)
                 {
-                    categoryList.Items.Add(category);
+                    categoryList.Items.Add(category.Name);
                 }
+
+                
             }
 
         }
@@ -105,9 +107,43 @@ namespace WindowsFormsDI01
 
         private void categoryList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
             productList.Items.Clear();
             categoryChangeLanguage();
+
+            string connectionString = ConfigurationManager.ConnectionStrings["AdventureWorks2016"].ConnectionString;
+
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                List<string> categories = new List<string>();
+
+                string sql3 = $"select [ProductCategoryID] FROM[Production].[ProductCategory] WHERE ProductCategory.Name like '%{categoryList.Text}%'";
+                categories = connection.Query<string>(sql3).ToList();
+
+                string IdSubcategory = "";
+                foreach (string item in categories)
+                {
+                    IdSubcategory = item;
+                }        
+
+                string connectionStringg = ConfigurationManager.ConnectionStrings["AdventureWorks2016"].ConnectionString;
+
+                using (IDbConnection connectionn = new SqlConnection(connectionStringg))
+                {
+                    List<string> subCategories = new List<string>();
+
+                    int valor = Int32.Parse(IdSubcategory);
+
+                    string sql4 = $"select [Name] FROM [Production].[ProductSubcategory] WHERE ProductSubcategory.ProductCategoryID = {valor}";
+                    subCategories = connectionn.Query<string>(sql4).ToList();
+
+                    foreach (string subCategory in subCategories)
+                    {
+                        subcategoryList.Items.Add(subCategory);
+                    }
+
+                }
+
+            }
         }
         private void categoryChangeLanguage()
         {
