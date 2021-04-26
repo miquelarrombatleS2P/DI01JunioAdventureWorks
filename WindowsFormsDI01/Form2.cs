@@ -15,8 +15,10 @@ namespace WindowsFormsDI01
 {
     public partial class For : Form
     {
+        List<Product> products;
         int ProductModelId = 0;
-       
+        Product product = new Product();
+        
         public string sql = $"SELECT "
                        + $"Production.Product.ProductID AS ProductID, Production.Product.ProductModelID AS ProductModelID, Production.ProductModel.Name, "
                        + $"Production.ProductDescription.Description, Production.Product.ListPrice, Production.Product.Size, Production.Product.Color "
@@ -34,6 +36,7 @@ namespace WindowsFormsDI01
             InitializeComponent();
             ProductModelId = Int32.Parse(ProductModelID);
             initialInformation();
+            searchIdProduct();
 
         }
 
@@ -44,7 +47,7 @@ namespace WindowsFormsDI01
 
             using (IDbConnection connection = new SqlConnection(connectionString))
             {
-                List<Product> products = new List<Product>();
+                products = new List<Product>();
 
                 string sql1 = sql + $"AND Product.ProductModelID = '{ProductModelId}';";
 
@@ -65,34 +68,94 @@ namespace WindowsFormsDI01
                     sizeDuplicates.Add(product.Size);
                     colorDuplicates.Add(product.Color);
 
+
                 }
                 List<string> sizeList = sizeDuplicates.Distinct().ToList();
                 List<string> colorList = colorDuplicates.Distinct().ToList();
 
                 foreach (var item in sizeList)
                 {
-                    Button newButton = new Button();
-                    this.Controls.Add(newButton);
-                    newButton.Text = item;
-                    newButton.Location = new Point(locateSize += 70, 165);
-                    newButton.Size = new Size(45, 45);
+                    Button sizeButton = new Button();
+                    this.Controls.Add(sizeButton);
+                    sizeButton.Name = item;
+                    sizeButton.Text = item;
+                    sizeButton.Location = new Point(locateSize += 70, 165);
+                    sizeButton.Size = new Size(45, 45);
+                    sizeButton.Click += sizeButton_Click;
+
                     
+                    if (sizeList[0] == item)
+                    {
+                        sizeButton.BackColor = Color.Red;
+                        string texto = sizeButton.Text;
+                        product.Size = texto;
+                    }
                 }
+
                
                 foreach (var item in colorList)
                 {
 
-                    Button newButton = new Button();
-                    this.Controls.Add(newButton);
-                    newButton.Text = item;
-                    newButton.Location = new Point(locateColor += 75, 218);
-                    newButton.Size = new Size(75, 45);
+                    Button colorButton = new Button();
+                    this.Controls.Add(colorButton);
+                    colorButton.Name = item;
+                    colorButton.Text = item;
+                    colorButton.Location = new Point(locateColor += 75, 218);
+                    colorButton.Size = new Size(75, 45);
+                    colorButton.Click += colorButton_Click;
+
+                   
+                    if (colorList[0] == item)
+                    {
+                        colorButton.BackColor = Color.Red;
+                        string texto = colorButton.Text;
+                        product.Color = texto;
+                    }
 
                 }
 
             }
         }
 
+        private void sizeButton_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            btn.BackColor = Color.Red;
+            string texto = btn.Text;
+            product.Size = texto;   
+            
+            searchIdProduct();
+        }
+
+        private void colorButton_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            btn.BackColor = Color.Red;
+            string texto = btn.Text;
+            product.Color = texto;
+
+            searchIdProduct();
+        }
+
+        private void searchIdProduct()
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["AdventureWorks2016"].ConnectionString;
+
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                List<Product> products = new List<Product>();
+
+                string sql1 = sql + $"AND Product.Size = '{product.Size}' AND Product.Color like '%{product.Color}%' ;";
+
+                products = connection.Query<Product>(sql1).ToList();
+
+                foreach (Product item in products)
+                {
+                    productSelected.Text = item.productID;
+                }
+            }
+
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Update has successfully");

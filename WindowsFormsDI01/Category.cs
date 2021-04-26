@@ -8,7 +8,12 @@ namespace WindowsFormsDI01
 {
     class Category
     {
-        public string ProductCategoryID { get; set; }
+        public int ProductCategoryID { get; set; }
         public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
     }
 }

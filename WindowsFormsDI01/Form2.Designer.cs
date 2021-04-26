@@ -35,6 +35,7 @@ namespace WindowsFormsDI01
             this.label2 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.decription = new System.Windows.Forms.Label();
+            this.productSelected = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Name
@@ -96,11 +97,21 @@ namespace WindowsFormsDI01
             this.decription.TabIndex = 9;
             this.decription.Text = "label1";
             // 
+            // productSelected
+            // 
+            this.productSelected.AutoSize = true;
+            this.productSelected.Location = new System.Drawing.Point(34, 370);
+            this.productSelected.Name = "productSelected";
+            this.productSelected.Size = new System.Drawing.Size(46, 17);
+            this.productSelected.TabIndex = 10;
+            this.productSelected.Text = "label3";
+            // 
             // For
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1001, 457);
+            this.Controls.Add(this.productSelected);
             this.Controls.Add(this.decription);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
@@ -121,5 +132,6 @@ namespace WindowsFormsDI01
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label decription;
+        private System.Windows.Forms.Label productSelected;
     }
 }
