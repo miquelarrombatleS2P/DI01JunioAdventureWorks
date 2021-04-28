@@ -13,7 +13,7 @@ using Dapper;
 
 namespace WindowsFormsDI01
 {
-    public partial class For : Form
+    public partial class DetallForm : Form
     {
         List<Product> products;
         int ProductModelId = 0;
@@ -31,7 +31,7 @@ namespace WindowsFormsDI01
                        + $"INNER JOIN Production.ProductDescription on Production.ProductModelProductDescriptionCulture.ProductDescriptionID = Production.ProductDescription.ProductDescriptionID "
                        + $"WHERE ProductModelProductDescriptionCulture.CultureID = 'en' AND Product.ProductModelID IS NOT NULL ";
 
-        public For(string ProductModelID)
+        public DetallForm(string ProductModelID)
         {
             InitializeComponent();
             ProductModelId = Int32.Parse(ProductModelID);
@@ -76,7 +76,7 @@ namespace WindowsFormsDI01
                 foreach (var item in sizeList)
                 {
                     Button sizeButton = new Button();
-                    this.Controls.Add(sizeButton);
+                    this.flowLayoutPanelSize.Controls.Add(sizeButton);
                     sizeButton.Name = item;
                     sizeButton.Text = item;
                     sizeButton.Location = new Point(locateSize += 70, 165);
@@ -97,7 +97,7 @@ namespace WindowsFormsDI01
                 {
 
                     Button colorButton = new Button();
-                    this.Controls.Add(colorButton);
+                    this.flowLayoutPanelColor.Controls.Add(colorButton);
                     colorButton.Name = item;
                     colorButton.Text = item;
                     colorButton.Location = new Point(locateColor += 75, 218);
@@ -119,6 +119,11 @@ namespace WindowsFormsDI01
 
         private void sizeButton_Click(object sender, EventArgs e)
         {
+            foreach (Button item in flowLayoutPanelSize.Controls)
+            {
+                item.BackColor = Color.LightGray;
+            }
+
             Button btn = (Button)sender;
             btn.BackColor = Color.Red;
             string texto = btn.Text;
@@ -129,6 +134,11 @@ namespace WindowsFormsDI01
 
         private void colorButton_Click(object sender, EventArgs e)
         {
+            foreach (Button item in flowLayoutPanelColor.Controls)
+            {
+                item.BackColor = Color.LightGray;
+            }
+
             Button btn = (Button)sender;
             btn.BackColor = Color.Red;
             string texto = btn.Text;

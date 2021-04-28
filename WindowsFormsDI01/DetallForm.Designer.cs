@@ -1,7 +1,7 @@
 ﻿
 namespace WindowsFormsDI01
 {
-    partial class For
+    partial class DetallForm
     {
         /// <summary>
         /// Required designer variable.
@@ -36,6 +36,8 @@ namespace WindowsFormsDI01
             this.button1 = new System.Windows.Forms.Button();
             this.decription = new System.Windows.Forms.Label();
             this.productSelected = new System.Windows.Forms.Label();
+            this.flowLayoutPanelSize = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanelColor = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
             // Name
@@ -106,11 +108,27 @@ namespace WindowsFormsDI01
             this.productSelected.TabIndex = 10;
             this.productSelected.Text = "label3";
             // 
-            // For
+            // flowLayoutPanelSize
+            // 
+            this.flowLayoutPanelSize.Location = new System.Drawing.Point(96, 150);
+            this.flowLayoutPanelSize.Name = "flowLayoutPanelSize";
+            this.flowLayoutPanelSize.Size = new System.Drawing.Size(452, 66);
+            this.flowLayoutPanelSize.TabIndex = 11;
+            // 
+            // flowLayoutPanelColor
+            // 
+            this.flowLayoutPanelColor.Location = new System.Drawing.Point(96, 222);
+            this.flowLayoutPanelColor.Name = "flowLayoutPanelColor";
+            this.flowLayoutPanelColor.Size = new System.Drawing.Size(452, 66);
+            this.flowLayoutPanelColor.TabIndex = 12;
+            // 
+            // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1001, 457);
+            this.Controls.Add(this.flowLayoutPanelColor);
+            this.Controls.Add(this.flowLayoutPanelSize);
             this.Controls.Add(this.productSelected);
             this.Controls.Add(this.decription);
             this.Controls.Add(this.button1);
@@ -118,7 +136,6 @@ namespace WindowsFormsDI01
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Price);
             this.Controls.Add(this.Name);
-            
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -133,5 +150,7 @@ namespace WindowsFormsDI01
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label decription;
         private System.Windows.Forms.Label productSelected;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelSize;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelColor;
     }
 }

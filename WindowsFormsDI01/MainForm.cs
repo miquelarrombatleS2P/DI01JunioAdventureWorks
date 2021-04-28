@@ -13,7 +13,7 @@ using Dapper;
 
 namespace WindowsFormsDI01
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         List<ProductModel> products = new List<ProductModel>();
         
@@ -32,7 +32,7 @@ namespace WindowsFormsDI01
                        + $"INNER JOIN Production.ProductDescription on Production.ProductModelProductDescriptionCulture.ProductDescriptionID = Production.ProductDescription.ProductDescriptionID "
                        + $"WHERE ProductModelProductDescriptionCulture.CultureID = 'en' AND Product.ProductModelID IS NOT NULL ";
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             initializeListBox();
@@ -102,7 +102,7 @@ namespace WindowsFormsDI01
          */ 
 
             
-            For updateProducts = new For(pModelID);
+            DetallForm updateProducts = new DetallForm(pModelID);
             updateProducts.ShowDialog();
         }
 
@@ -174,12 +174,16 @@ namespace WindowsFormsDI01
                 List<ProductModel> products = new List<ProductModel>();
 
                 products = connection.Query<ProductModel>(sql1).ToList();
+
+                List<ProductModel> output = new List<ProductModel>();
+
+                duplicates(products, output);
                                
-                foreach (ProductModel product in products)
+             /*   foreach (ProductModel product in products)
                 {
                     productList.Items.Add(product.ToString());
                 }
-
+             */
             }
         }
 
