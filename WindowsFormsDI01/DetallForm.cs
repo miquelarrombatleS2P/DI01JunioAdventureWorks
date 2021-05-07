@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Configuration;
 using System.Data.SqlClient;
 using Dapper;
+using System.IO;
 
 namespace WindowsFormsDI01
 {
@@ -171,6 +172,39 @@ namespace WindowsFormsDI01
             MessageBox.Show("Update has successfully");
         }
 
-  
+        private void productSelected_TextChanged(object sender, EventArgs e)
+        {
+            ProductPhoto productPhoto = DataAccess.GetProductWithImage(int.Parse(productSelected.Text));
+            byte[] photo = productPhoto.LargePhoto;
+            MemoryStream ms = new MemoryStream(photo);
+            Image image = Image.FromStream(ms);
+            pictureBox1.Image = image; 
+        }
+
+        private void openFile_Click(object sender, EventArgs e)
+        {
+            var result = openFileDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                fileNametextBox.Text = openFileDialog1.FileName;
+                pictureBox2.Image = Image.FromFile(fileNametextBox.Text);
+            }
+        }
+
+        private void writeImgtoDBButton_Click(object sender, EventArgs e)
+        {
+            string lrgPhotoFileName = fileNametextBox.Text.Split('\\').Last();
+
+            try
+            {
+                int rowsAffected = DataAccess.WriteImage(lrgPhotoFileName, pictureBox2.Image);
+                MessageBox.Show("Inserted an image correctly", "Success", MessageBoxButtons.OK);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK);
+            }
+            
+        }
     }
 }
